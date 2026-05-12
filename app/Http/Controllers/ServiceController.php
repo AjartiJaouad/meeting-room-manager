@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Service;
 use Illuminate\Http\Request;
 
 class ServiceController extends Controller
@@ -11,7 +12,11 @@ class ServiceController extends Controller
      */
     public function index()
     {
-        //
+        $services = Service::all();
+
+        return view('admin.services.index', compact(
+            'services'
+        ));
     }
 
     /**
@@ -27,7 +32,13 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nom_service' => 'required|string|max:255',
+        ]);
+
+        Service::create($request->all());
+
+        return redirect()->back()->with('success', 'Service ajouté !');
     }
 
     /**
