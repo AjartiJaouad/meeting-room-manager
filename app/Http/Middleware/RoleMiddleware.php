@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Middleware;
+use App\Models\Service;
+
 
 use Closure;
 use Illuminate\Http\Request;
@@ -13,13 +15,13 @@ class RoleMiddleware
      *
      * @param  Closure(Request): (Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
-    {
-        // condtion  pour verfier si user est connecté et si son roll corespond ou rolle reque
-        if (! $request->user() || $request->user()->role !== $role) {
-            abort(403, "Accès refusé : Vous n'avez pas les permissions nécessaires.");
-        }
-
-        return $next($request);
+  // ...
+public function handle(Request $request, Closure $next, $role): Response
+{
+    if (!$request->user() || $request->user()->role !== $role) {
+        abort(403, "Accès refusé.");
     }
+
+    return $next($request);
+}
 }
