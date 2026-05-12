@@ -2,63 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Salle;
+use App\Models\Service;
 use Illuminate\Http\Request;
 
 class SalleController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    
     public function index()
     {
-        //
+        $salles = Salle::with('service')->get();
+        return view('admin.salles.index', compact('salles'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
-        //
+        $services = Service::all();
+        return view('admin.salles.create', compact('services'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'nom_salle'  => 'required|string|max:255',
+            'type_salle' => 'required|string',
+            'capacite'   => 'required|integer|min:1',
+            'service_id' => 'required|exists:services,id',
+        ]);
+
+        Salle::create($validated);
+
+        return redirect()->route('salles.index')->with('success', 'La salle a été créée avec succès.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

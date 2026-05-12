@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('salles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('hospital_id')->constrained()->onDelete('cascade');
+            $table->foreignId('service_id')->constrained()->onDelete('cascade');
             $table->string('nom_salle');
+            $table->string('type_salle'); // (Réunion, Formation, Administration...)
             $table->integer('capacite');
-            $table->text('equipements')->nullable();
+            $table->json('equipements')->nullable();
             $table->timestamps();
         });
     }

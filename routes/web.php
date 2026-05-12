@@ -22,6 +22,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::resource('services', ServiceController::class);
     Route::resource('salles', SalleController::class);
 });
-
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
+    Route::resource('salles', SalleController::class);
+});
 
 require __DIR__.'/auth.php';
